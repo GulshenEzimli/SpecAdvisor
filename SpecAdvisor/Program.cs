@@ -133,7 +133,7 @@ namespace SpecAdvisor
             string[] universityNames =  { "Bakı Dövlət Universiteti", "Azərbaycan Texniki Universiteti",
                 "Azərbaycan Dövlət Neft və Sənaye Universiteti", "Azərbaycan Memarlıq və İnşaat Universiteti" ,
                 "Azərbaycan Dövlət Pedaqoji Universiteti" , "Azərbaycan Dövlət İqtisad Universiteti" ,
-                "Azərbaycan Dillər Universiteti", "Bakı Mühəndislik Universiteti" };
+                "Bakı Mühəndislik Universiteti" };
 
             Console.WriteLine("The faculty is visible?");
             string isFormal = Console.ReadLine();
@@ -150,176 +150,179 @@ namespace SpecAdvisor
             Console.WriteLine("Should the faculty be paid?");
             bool isPaid = Console.ReadLine() == "Y" ? true : false;
 
-            Console.WriteLine("Ühat group is  the faculty?");
+            Console.WriteLine("What group is  the faculty?");
             string group = Console.ReadLine();
+
+            Console.WriteLine("How many choice do you want to see?");
+            int totalChoices = Convert.ToInt32(Console.ReadLine());
+            int countOfChoices = totalChoices / 5;
 
             List<Faculty> chosenFaculties = faculties.Where(f => (f.IsVisual == isVisual) || (!(f.IsVisual) == isNotVisual)).ToList();
             chosenFaculties = chosenFaculties.Where(f => universityNames.Contains(f.University.UniversityName) && f.GroupName == group).ToList();
-            double plusFive = studentScore + 5;
-            double plusTwenty = studentScore + 20;
-            double minusFive = studentScore - 5;
-            double minusTwenty = studentScore - 20;
+            double plusFifty = studentScore + 50;
+            double plusTwentyFive = studentScore + 25;
+            double minusTwentyFive = studentScore - 25;
             double minusFifty = studentScore - 50;
             double minusEighty = studentScore - 80;
-            List<Faculty> isBetweenPlusFivePlusTwenty = new List<Faculty>();
-            List<Faculty> isBetweenPlusFiveMinusFive = new List<Faculty>();
-            List<Faculty> isBetweenMinusFiveMinusTwenty = new List<Faculty>();
-            List<Faculty> isBetweenMinusTwentyMinusFifty = new List<Faculty>();
-            List<Faculty> isBetweenMinusFiftyMinusEighty = new List<Faculty>();
+            List<Faculty> isBetweenPlus25Plus50 = new List<Faculty>();
+            List<Faculty> isBetweenScorePlus25 = new List<Faculty>();
+            List<Faculty> isBetweenMinus25Score = new List<Faculty>();
+            List<Faculty> isBetweenMinus25Minus50 = new List<Faculty>();
+            List<Faculty> isBetweenMinus50Minus80 = new List<Faculty>();
 
-            if (isPaid)
+            if(isPaid)
             {
-                isBetweenPlusFivePlusTwenty = chosenFaculties.Where(f => (f.ScoreWithPay >= plusFive & f.ScoreWithPay <= plusTwenty)).ToList();
-                isBetweenPlusFiveMinusFive = chosenFaculties.Where(f => (f.ScoreWithPay >= minusFive & f.ScoreWithPay <= plusFive)).ToList();
-                isBetweenMinusFiveMinusTwenty = chosenFaculties.Where(f => (f.ScoreWithPay >= minusTwenty & f.ScoreWithPay <= minusFive)).ToList();
-                isBetweenMinusTwentyMinusFifty = chosenFaculties.Where(f => (f.ScoreWithPay >= minusFifty & f.ScoreWithPay <= minusTwenty)).ToList();
-                isBetweenMinusFiftyMinusEighty = chosenFaculties.Where(f => (f.ScoreWithPay >= minusEighty & f.ScoreWithPay <= minusFifty)).ToList();
+                isBetweenPlus25Plus50 = chosenFaculties.Where(f => (f.ScoreWithPay >= plusTwentyFive & f.ScoreWithPay <= plusFifty)).ToList();
+                isBetweenScorePlus25 = chosenFaculties.Where(f => (f.ScoreWithPay >= studentScore & f.ScoreWithPay <= plusTwentyFive)).ToList();
+                isBetweenMinus25Score = chosenFaculties.Where(f => (f.ScoreWithPay >= minusTwentyFive & f.ScoreWithPay <= studentScore)).ToList();
+                isBetweenMinus25Minus50 = chosenFaculties.Where(f => (f.ScoreWithPay >= minusFifty & f.ScoreWithPay <= minusTwentyFive)).ToList();
+                isBetweenMinus50Minus80 = chosenFaculties.Where(f => (f.ScoreWithPay >= minusEighty & f.ScoreWithPay <= minusFifty)).ToList();
 
             }
-            else if (isFree)
+            if(isFree)
             {
-                var isBetweenPlusFivePlusTwentyIsFree = chosenFaculties.Where(f => (f.Score >= plusFive & f.Score <= plusTwenty)).ToList();
-                isBetweenPlusFivePlusTwenty.AddRange(isBetweenPlusFivePlusTwentyIsFree);
+                var isBetweenPlusFivePlusTwentyIsFree = chosenFaculties.Where(f => (f.Score >= plusTwentyFive & f.Score <= plusFifty)).ToList();
+                isBetweenPlus25Plus50.AddRange(isBetweenPlusFivePlusTwentyIsFree);
 
-                var isBetweenPlusFiveMinusFiveIsFree = chosenFaculties.Where(f => (f.Score >= minusFive & f.Score <= plusFive)).ToList();
-                isBetweenPlusFiveMinusFive.AddRange(isBetweenPlusFiveMinusFiveIsFree);
+                var isBetweenPlusFiveMinusFiveIsFree = chosenFaculties.Where(f => (f.Score >= studentScore & f.Score <= plusTwentyFive)).ToList();
+                isBetweenScorePlus25.AddRange(isBetweenPlusFiveMinusFiveIsFree);
 
-                var isBetweenMinusFiveMinusTwentyIsFree = chosenFaculties.Where(f => (f.Score >= minusTwenty & f.Score <= minusFive)).ToList();
-                isBetweenMinusFiveMinusTwenty.AddRange(isBetweenMinusFiveMinusTwentyIsFree);
+                var isBetweenMinusFiveMinusTwentyIsFree = chosenFaculties.Where(f => (f.Score >= minusTwentyFive & f.Score <= studentScore)).ToList();
+                isBetweenMinus25Score.AddRange(isBetweenMinusFiveMinusTwentyIsFree);
 
-                var isBetweenMinusTwentyMinusFiftyIsFree = chosenFaculties.Where(f => (f.Score >= minusFifty & f.Score <= minusTwenty)).ToList();
-                isBetweenMinusTwentyMinusFifty.AddRange(isBetweenMinusTwentyMinusFiftyIsFree);
+                var isBetweenMinusTwentyMinusFiftyIsFree = chosenFaculties.Where(f => (f.Score >= minusFifty & f.Score <= minusTwentyFive)).ToList();
+                isBetweenMinus25Minus50.AddRange(isBetweenMinusTwentyMinusFiftyIsFree);
 
                 var isBetweenMinusFiftyMinusEightyIsFree = chosenFaculties.Where(f => (f.Score >= minusEighty & f.Score <= minusFifty)).ToList();
-                isBetweenMinusFiftyMinusEighty.AddRange(isBetweenMinusFiftyMinusEightyIsFree);
+                isBetweenMinus50Minus80.AddRange(isBetweenMinusFiftyMinusEightyIsFree);
             }
 
             List<Faculty> facultiesForStudent = new List<Faculty>();
 
-            int isBetweenPlusFivePlusTwentyCount = isBetweenPlusFivePlusTwenty.Count;  //24
-            int isBetweenPlusFiveMinusFiveCount = isBetweenPlusFiveMinusFive.Count;    //30
-            int isBetweenMinusFiveMinusTwentyCount = isBetweenMinusFiveMinusTwenty.Count;   //26
-            int isBetweenMinusTwentyMinusFiftyCount = isBetweenMinusTwentyMinusFifty.Count;
-            int isBetweenMinusFiftyMinusEightyCount = isBetweenMinusFiftyMinusEighty.Count;
+            int isBetweenPlus25Plus50Count = isBetweenPlus25Plus50.Count;  //24
+            int isBetweenScorePlus25Count = isBetweenScorePlus25.Count;    //30
+            int isBetweenMinus25ScoreCount = isBetweenMinus25Score.Count;   //26
+            int isBetweenMinus25Minus50Count = isBetweenMinus25Minus50.Count;
+            int isBetweenMinus50Minus80Count = isBetweenMinus50Minus80.Count;
 
-            int sumOfFirstThree = 60;
-            if (isBetweenMinusTwentyMinusFiftyCount + isBetweenMinusFiftyMinusEightyCount < 40)
-                sumOfFirstThree = 100 - (isBetweenMinusTwentyMinusFiftyCount + isBetweenMinusFiftyMinusEightyCount);
+            int sumOfFirstThree = totalChoices * 3 / 5;
+            if (isBetweenMinus25Minus50Count + isBetweenMinus50Minus80Count < (totalChoices * 2 / 5))
+                sumOfFirstThree = totalChoices - (isBetweenMinus25Minus50Count + isBetweenMinus50Minus80Count);
 
-            if (isBetweenPlusFiveMinusFiveCount > 20)
+            if (isBetweenScorePlus25Count > countOfChoices)
             {
-                if (isBetweenPlusFivePlusTwentyCount < 20 && isBetweenMinusFiveMinusTwentyCount < 20)
+                if (isBetweenPlus25Plus50Count < countOfChoices && isBetweenMinus25ScoreCount < countOfChoices)
                 {
-                    int sum = isBetweenPlusFivePlusTwentyCount + isBetweenPlusFiveMinusFiveCount + isBetweenMinusFiveMinusTwentyCount;
+                    int sum = isBetweenPlus25Plus50Count + isBetweenScorePlus25Count + isBetweenMinus25ScoreCount;
                     if (sum > sumOfFirstThree)
-                        isBetweenPlusFiveMinusFiveCount = sumOfFirstThree - (isBetweenPlusFivePlusTwentyCount + isBetweenMinusFiveMinusTwentyCount);
+                        isBetweenScorePlus25Count = sumOfFirstThree - (isBetweenPlus25Plus50Count + isBetweenMinus25ScoreCount);
                 }
-                else if (isBetweenPlusFivePlusTwentyCount < 20 && isBetweenMinusFiveMinusTwentyCount > 20)
+                else if (isBetweenPlus25Plus50Count < countOfChoices && isBetweenMinus25ScoreCount > countOfChoices)
                 {
-                    int remain = sumOfFirstThree - isBetweenPlusFivePlusTwentyCount;
-                    if (isBetweenMinusFiveMinusTwentyCount < remain / 2)
-                        isBetweenPlusFiveMinusFiveCount = remain - isBetweenMinusFiveMinusTwentyCount;
-                    else if (isBetweenPlusFiveMinusFiveCount < remain / 2)
-                        isBetweenMinusFiveMinusTwentyCount = remain - isBetweenPlusFiveMinusFiveCount;
+                    int remain = sumOfFirstThree - isBetweenPlus25Plus50Count;
+                    if (isBetweenMinus25ScoreCount < remain / 2)
+                        isBetweenScorePlus25Count = remain - isBetweenMinus25ScoreCount;
+                    else if (isBetweenScorePlus25Count < remain / 2)
+                        isBetweenMinus25ScoreCount = remain - isBetweenScorePlus25Count;
                     else
                     {
-                        isBetweenMinusFiveMinusTwentyCount = remain / 2;
-                        isBetweenPlusFiveMinusFiveCount = remain - isBetweenMinusFiveMinusTwentyCount;
+                        isBetweenMinus25ScoreCount = remain / 2;
+                        isBetweenScorePlus25Count = remain - isBetweenMinus25ScoreCount;
                     }
                 }
-                else if (isBetweenPlusFivePlusTwentyCount > 20 && isBetweenMinusFiveMinusTwentyCount < 20)
+                else if (isBetweenPlus25Plus50Count > countOfChoices && isBetweenMinus25ScoreCount < countOfChoices)
                 {
-                    int remain = sumOfFirstThree - isBetweenMinusFiveMinusTwentyCount;
+                    int remain = sumOfFirstThree - isBetweenMinus25ScoreCount;
 
-                    if (isBetweenPlusFivePlusTwentyCount < remain / 2)
-                        isBetweenPlusFiveMinusFiveCount = remain - isBetweenPlusFivePlusTwentyCount;
-                    else if (isBetweenPlusFiveMinusFiveCount < remain / 2)
-                        isBetweenPlusFivePlusTwentyCount = remain - isBetweenPlusFiveMinusFiveCount;
+                    if (isBetweenPlus25Plus50Count < remain / 2)
+                        isBetweenScorePlus25Count = remain - isBetweenPlus25Plus50Count;
+                    else if (isBetweenScorePlus25Count < remain / 2)
+                        isBetweenPlus25Plus50Count = remain - isBetweenScorePlus25Count;
                     else
                     {
-                        isBetweenPlusFivePlusTwentyCount = remain / 2;
-                        isBetweenPlusFiveMinusFiveCount = remain - isBetweenPlusFivePlusTwentyCount;
+                        isBetweenPlus25Plus50Count = remain / 2;
+                        isBetweenScorePlus25Count = remain - isBetweenPlus25Plus50Count;
                     }
                 }
                 else
                 {
                     int sumOfOne = sumOfFirstThree / 3;
-                    isBetweenPlusFivePlusTwentyCount = isBetweenMinusFiveMinusTwentyCount = sumOfOne;
-                    isBetweenPlusFiveMinusFiveCount = sumOfFirstThree - (isBetweenPlusFivePlusTwentyCount + isBetweenMinusFiveMinusTwentyCount);
+                    isBetweenPlus25Plus50Count = isBetweenMinus25ScoreCount = sumOfOne;
+                    isBetweenScorePlus25Count = sumOfFirstThree - (isBetweenPlus25Plus50Count + isBetweenMinus25ScoreCount);
                 }
             }
-            if (isBetweenPlusFiveMinusFiveCount < 20)
+            if (isBetweenScorePlus25Count < countOfChoices)
             {
-                if (isBetweenPlusFivePlusTwentyCount > 20 && isBetweenMinusFiveMinusTwentyCount > 20)
+                if (isBetweenPlus25Plus50Count > countOfChoices && isBetweenMinus25ScoreCount > countOfChoices)
                 {
-                    int remain = sumOfFirstThree - isBetweenPlusFiveMinusFiveCount;
+                    int remain = sumOfFirstThree - isBetweenScorePlus25Count;
 
-                    if ((isBetweenPlusFivePlusTwentyCount > remain / 2) && (isBetweenMinusFiveMinusTwentyCount > remain / 2))
+                    if ((isBetweenPlus25Plus50Count > remain / 2) && (isBetweenMinus25ScoreCount > remain / 2))
                     {
-                        isBetweenPlusFivePlusTwentyCount = remain / 2;
-                        isBetweenMinusFiveMinusTwentyCount = remain - isBetweenPlusFivePlusTwentyCount;
+                        isBetweenPlus25Plus50Count = remain / 2;
+                        isBetweenMinus25ScoreCount = remain - isBetweenPlus25Plus50Count;
                     }
-                    else if ((isBetweenPlusFivePlusTwentyCount < remain / 2) && (isBetweenMinusFiveMinusTwentyCount > remain / 2))
+                    else if ((isBetweenPlus25Plus50Count < remain / 2) && (isBetweenMinus25ScoreCount > remain / 2))
                     {
-                        if (isBetweenMinusFiveMinusTwentyCount > (remain - isBetweenPlusFivePlusTwentyCount))
-                            isBetweenMinusFiveMinusTwentyCount = remain - isBetweenPlusFivePlusTwentyCount;
+                        if (isBetweenMinus25ScoreCount > (remain - isBetweenPlus25Plus50Count))
+                            isBetweenMinus25ScoreCount = remain - isBetweenPlus25Plus50Count;
                     }
-                    else if ((isBetweenMinusFiveMinusTwentyCount < remain / 2) && (isBetweenPlusFivePlusTwentyCount > remain / 2))
+                    else if ((isBetweenMinus25ScoreCount < remain / 2) && (isBetweenPlus25Plus50Count > remain / 2))
                     {
-                        if (isBetweenPlusFivePlusTwentyCount > (remain - isBetweenMinusFiveMinusTwentyCount))
-                            isBetweenPlusFivePlusTwentyCount = remain - isBetweenMinusFiveMinusTwentyCount;
+                        if (isBetweenPlus25Plus50Count > (remain - isBetweenMinus25ScoreCount))
+                            isBetweenPlus25Plus50Count = remain - isBetweenMinus25ScoreCount;
                     }
                 }
-                else if (isBetweenPlusFivePlusTwentyCount < 20 && isBetweenMinusFiveMinusTwentyCount > 20)
+                else if (isBetweenPlus25Plus50Count < countOfChoices && isBetweenMinus25ScoreCount > countOfChoices)
                 {
-                    int remain = sumOfFirstThree - (isBetweenPlusFivePlusTwentyCount + isBetweenPlusFiveMinusFiveCount);
-                    if (isBetweenMinusFiveMinusTwentyCount > remain)
-                        isBetweenMinusFiveMinusTwentyCount = remain;
+                    int remain = sumOfFirstThree - (isBetweenPlus25Plus50Count + isBetweenScorePlus25Count);
+                    if (isBetweenMinus25ScoreCount > remain)
+                        isBetweenMinus25ScoreCount = remain;
                 }
-                else if (isBetweenPlusFivePlusTwentyCount > 20 && isBetweenMinusFiveMinusTwentyCount < 20)
+                else if (isBetweenPlus25Plus50Count > countOfChoices && isBetweenMinus25ScoreCount < countOfChoices)
                 {
-                    int remain = sumOfFirstThree - (isBetweenMinusFiveMinusTwentyCount + isBetweenPlusFiveMinusFiveCount);
-                    if (isBetweenPlusFivePlusTwentyCount > remain)
-                        isBetweenPlusFivePlusTwentyCount = remain;
+                    int remain = sumOfFirstThree - (isBetweenMinus25ScoreCount + isBetweenScorePlus25Count);
+                    if (isBetweenPlus25Plus50Count > remain)
+                        isBetweenPlus25Plus50Count = remain;
                 }
-            }
-
-            int sumOfLastTwo = 100 - (isBetweenPlusFivePlusTwentyCount + isBetweenPlusFiveMinusFiveCount + isBetweenMinusFiveMinusTwentyCount);
-            if (isBetweenMinusTwentyMinusFiftyCount < 20 & isBetweenMinusFiftyMinusEightyCount > 20)
-            {
-                if (isBetweenMinusFiftyMinusEightyCount > sumOfLastTwo - isBetweenMinusTwentyMinusFiftyCount)
-                    isBetweenMinusFiftyMinusEightyCount = sumOfLastTwo - isBetweenMinusTwentyMinusFiftyCount;
-            }
-            else if (isBetweenMinusTwentyMinusFiftyCount > 20 & isBetweenMinusFiftyMinusEightyCount < 20)
-            {
-                if (isBetweenMinusTwentyMinusFiftyCount > sumOfLastTwo - isBetweenMinusFiftyMinusEightyCount)
-                    isBetweenMinusTwentyMinusFiftyCount = sumOfLastTwo - isBetweenMinusFiftyMinusEightyCount;
-            }
-            else if (isBetweenMinusTwentyMinusFiftyCount > 20 & isBetweenMinusFiftyMinusEightyCount > 20)
-            {
-                isBetweenMinusTwentyMinusFiftyCount = sumOfLastTwo / 2;
-                isBetweenMinusFiftyMinusEightyCount = sumOfLastTwo - isBetweenMinusTwentyMinusFiftyCount;
             }
 
-            for (int i = 0; i < isBetweenPlusFivePlusTwenty.Count; i++)
+            int sumOfLastTwo = totalChoices - (isBetweenPlus25Plus50Count + isBetweenScorePlus25Count + isBetweenMinus25ScoreCount);
+            if (isBetweenMinus25Minus50Count < countOfChoices & isBetweenMinus50Minus80Count > countOfChoices)
             {
-                facultiesForStudent.Add(isBetweenPlusFivePlusTwenty[i]);
+                if (isBetweenMinus50Minus80Count > sumOfLastTwo - isBetweenMinus25Minus50Count)
+                    isBetweenMinus50Minus80Count = sumOfLastTwo - isBetweenMinus25Minus50Count;
             }
-            for (int i = 0; i < isBetweenPlusFiveMinusFive.Count; i++)
+            else if (isBetweenMinus25Minus50Count > countOfChoices & isBetweenMinus50Minus80Count < countOfChoices)
             {
-                facultiesForStudent.Add(isBetweenPlusFiveMinusFive[i]);
+                if (isBetweenMinus25Minus50Count > sumOfLastTwo - isBetweenMinus50Minus80Count)
+                    isBetweenMinus25Minus50Count = sumOfLastTwo - isBetweenMinus50Minus80Count;
             }
-            for (int i = 0; i < isBetweenMinusFiveMinusTwenty.Count; i++)
+            else if (isBetweenMinus25Minus50Count > countOfChoices & isBetweenMinus50Minus80Count > countOfChoices)
             {
-                facultiesForStudent.Add(isBetweenMinusFiveMinusTwenty[i]);
+                isBetweenMinus25Minus50Count = sumOfLastTwo / 2;
+                isBetweenMinus50Minus80Count = sumOfLastTwo - isBetweenMinus25Minus50Count;
             }
-            for (int i = 0; i < isBetweenMinusTwentyMinusFifty.Count; i++)
+
+            for (int i = 0; i < isBetweenPlus25Plus50.Count; i++)
             {
-                facultiesForStudent.Add(isBetweenMinusTwentyMinusFifty[i]);
+                facultiesForStudent.Add(isBetweenPlus25Plus50[i]);
             }
-            for (int i = 0; i < isBetweenMinusFiftyMinusEighty.Count; i++)
+            for (int i = 0; i < isBetweenScorePlus25.Count; i++)
             {
-                facultiesForStudent.Add(isBetweenMinusFiftyMinusEighty[i]);
+                facultiesForStudent.Add(isBetweenScorePlus25[i]);
+            }
+            for (int i = 0; i < isBetweenMinus25Score.Count; i++)
+            {
+                facultiesForStudent.Add(isBetweenMinus25Score[i]);
+            }
+            for (int i = 0; i < isBetweenMinus25Minus50.Count; i++)
+            {
+                facultiesForStudent.Add(isBetweenMinus25Minus50[i]);
+            }
+            for (int i = 0; i < isBetweenMinus50Minus80.Count; i++)
+            {
+                facultiesForStudent.Add(isBetweenMinus50Minus80[i]);
             }
 
             foreach (var f in facultiesForStudent)
